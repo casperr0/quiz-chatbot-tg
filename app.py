@@ -29,13 +29,15 @@ def send_new_problem(chat_id):
             chat_id=chat_id,
             text=prob.text(),
             parse_mode='HTML',
-            reply_markup=prob_markup(prob._id, prob.hint)
+            reply_markup=prob_markup(prob._id)
         )
     else:
         bot.send_message(chat_id=chat_id, text=reply_msg('finish'))
         bot.send_message(
             chat_id=chat_id,
-            text='你已完成所有題目！\n若是想繼續練習可以輸入 /start 繼續作答(不計分)'
+            text="""You have completed all the questions!！\n
+                 If you want to continue practicing, you can enter /start to continue answering (no points will be counted)
+                 If you want to know your score type /status"""
         )
 
 @run_async
@@ -50,7 +52,7 @@ def start_handler(update, _):
     else:
         user = User(uid, nickname)
         if not user.register():
-            reply = '無法建立帳號，請於粉專或 discord 私訊小編！'
+            reply = 'Unable to create an account！'
             bot.send_message(chat_id=chat_id, text=reply)
             return
 
@@ -100,7 +102,7 @@ def status_handler(update, _):
     uid = str(chat_id)
 
     if uid not in ENTITY:
-        reply = '出錯啦，嘗試重新輸入 /start 看看'
+        reply = 'Something went wrong, try to re-enter /start to see'
         bot.send_message(chat_id=chat_id, text=reply)
         return
 
@@ -108,11 +110,11 @@ def status_handler(update, _):
     stat = user.get_status()
     remain = stat['last']
     score = stat['score']
-    rank = stat['rank']
-    reply = f"得分: {score}\n排名: 第 {rank} 名\n"
+
+    reply = f"score: {score}\n "
 
     if remain > 0:
-        reply += f'剩餘題數: {remain} 題'
+        reply += f'Remaining questions: {remain} '
     else:
         reply += 'Game Completed!'
 

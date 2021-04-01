@@ -1,23 +1,19 @@
 {
 	"welcome": [
-		"▶Hello, world!",
-		"▶歡迎光臨 my phone",
-		"▶777! 聊天室 7 起來!"
+		"▶Hello, world! This test has 9 questions. Try to answer all of them! ",
+		"▶Welcome! This test has 9 questions. Try to answer all of them!"
 	],
 	"finish": [
-		"🚩這並不是結束, 而是嶄新的開始"
+		"🚩This is not the end, but a new beginning"
 	],
 	"allpass": [
-		"😎看來你很閒呢, 那就加入CCNS吧(?",
-		"😎你贏惹 ob’_'ov",
-		"😎不如來跟我們一起出題?",
-		"😎Wonderful Day",
-		"😎大腦在星爆..."
+		"😎cool(?",
+		"😎Wonderful Day"
 	],
 	"allwrong": [
-		"👽每一題都答錯，你也不簡單啊…",
-		"👽你絕對是故意的吧?對吧?對吧?",
-		"👽這是只存在我們倆中間的秘密喔！"
+		"👽You answer every question wrong, and you are not easy...",
+		"👽You definitely did it on purpose, right? Right?",
+		"👽這It’s only the secret between us！"
 	],
 	"correct": [],
 	"incorrect": [] 
