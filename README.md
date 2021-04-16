@@ -1,9 +1,9 @@
 # CCNS Quiz Bot - Telegram Client
 
 ## Usage
-Install dependencies by pipenv
+Install dependencies by poetry
 ```
-$ pipenv install
+$ poetry install
 ```
 
 Fill in telegram bot token & [quiz-server](https://github.com/ccns/quiz-server) host ip to `.env`
@@ -14,7 +14,7 @@ $ vim .env
 
 Start the bot
 ```
-$ pipenv run ./app.py
+$ poetry run python3 app.py
 ```
 
 ## Reference
