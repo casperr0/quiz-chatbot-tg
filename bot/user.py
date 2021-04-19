@@ -33,18 +33,16 @@ class User:
     finished: bool = False
 
     def get_company(self, update, bot, chat_id):
-
-        #print("trying to update")
         message_text = update.message.text
         print(message_text)
         if message_text is not None:
             self.company = message_text
 
     def get_problem(self) -> Union[Problem, None]:
-        if not self.finished:
-            feed = backend.get_feed(self.uuid)
-        else:
-            feed = backend.get_rand_feed()
+        if self.finished:
+            return False
+
+        feed = backend.get_feed(self.uuid)
 
         if not feed:
             self.finished = True
