@@ -11,6 +11,7 @@ class RegisterReq(TypedDict):
     platform_userid: str
     company: str
 
+
 class UserFeed(TypedDict):
     quiz_uuid: str
     author: str

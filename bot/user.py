@@ -68,6 +68,7 @@ class User:
         res = backend.post_answer(payload)
         return res['correct']
 
+
     def get_status(self):
         return backend.get_status(self.uuid)
 

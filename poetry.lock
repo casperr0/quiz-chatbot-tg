@@ -146,8 +146,8 @@ brotli = ["brotlipy (>=0.6.0)"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8"
-content-hash = "3778a6d1879bef0c0e1119cbece701f1be684e91f5a836ef57067a07eb432aee"
+python-versions = "^3.9"
+content-hash = "b796baee084893e46f30e029dfc187889c7a7a4cf93b0d1c5e94ea2464bf7d6e"
 
 [metadata.files]
 apscheduler = [

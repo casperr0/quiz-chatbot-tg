@@ -40,6 +40,7 @@ def send_new_problem(chat_id):
                  If you want to know your score type /status"""
         )
 
+
 def company(update, _):
     #update.message.reply_text(update.message.text)
     #message_text = update.message.text
@@ -59,6 +60,7 @@ def company(update, _):
     send_new_problem(chat_id)
 
 
+
 def start_handler(update, _):
     global ENTITY
     chat_id = update.message.chat_id
@@ -71,6 +73,7 @@ def start_handler(update, _):
         chat_id=chat_id,
         text="""Please write your company name """
     )
+
 
 def callback_handler(update, _):
     global ENTITY

@@ -5,7 +5,7 @@ description = ""
 authors = ["HexRabbit <h3xrabbit@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 requests = "^2.25.1"
 python-telegram-bot = "^13.2"
 python-dotenv = "^0.15.0"
