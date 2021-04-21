@@ -76,7 +76,7 @@ class User:
         if res:
             self.uuid = res['player_uuid']
             return True
-        self.get_company( update, bot, chat_id=chat_id)
+        self.get_company(update, bot, chat_id=chat_id)
 
         payload: RegisterReq = {
             'name': self.username,

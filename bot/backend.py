@@ -8,7 +8,7 @@ from .config import HOST
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
+    level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,6 @@ def get_status(uuid: str) -> UserStatus:
 
 def get_feed(uuid: str) -> Union[UserFeed, None]:
     res = requests.get(urljoin(HOST, f'/feeds/{uuid}'))
-
     logger.info(res.url)
     if not res.ok:
         res.raise_for_status()

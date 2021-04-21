@@ -1,10 +1,11 @@
 {
 	"welcome": [
-		"▶Hello, world! This test has 9 questions. Try to answer all of them! ",
-		"▶Welcome! This test has 9 questions. Try to answer all of them!"
+		"▶Hello, world! This test has 5 questions. Try to answer all of them! ",
+		"▶Welcome! This test has 5 questions. Try to answer all of them!"
 	],
 	"finish": [
-		"🚩This is not the end, but a new beginning"
+		"🚩This is not the end, but a new beginning",
+		"🚩You've passed all questions!"
 	],
 	"allpass": [
 		"😎cool(?",

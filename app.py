@@ -5,20 +5,22 @@ from typing import Dict
 import telegram
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler,Filters, MessageHandler
 from telegram.ext.dispatcher import run_async
-from bot.reply import reply_msg, judge_msg, prob_markup
+from bot.reply import reply_msg, judge_msg, prob_markup, prob_markup_doggo
 from bot.user import User
 from bot.config import TOKEN
 from bot import backend
+from random import randrange
 
 request = telegram.utils.request.Request(con_pool_size=20)
 bot = telegram.Bot(token=TOKEN, request=request)
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
+    level=logging.DEBUG
 )
 logger = logging.getLogger(__name__)
 ENTITY: Dict[str, User] = {}
+dogs_photos = ["doggo1.jpg", "doggo2.jpg", "doggo3.jpg", "doggo4.jpg", "doggo5.jpg"]
 
 def send_new_problem(user_id,chat_id):
     global ENTITY
@@ -40,22 +42,50 @@ def send_new_problem(user_id,chat_id):
                  If you want to know your score type /status"""
         )
 
+def send_new_doggo(user_id,chat_id):
+    global ENTITY
+    uid = str(user_id)
+    prob = ENTITY[uid].get_problem()
+    if prob:
 
-def company(update, _):
+        doggo_photo=dogs_photos[randrange(len(dogs_photos))]
+        with open(doggo_photo, 'rb') as f:
+            bot.send_photo(
+                chat_id=chat_id,
+
+                parse_mode='HTML',
+                photo=f,
+                reply_markup=prob_markup_doggo(prob.quiz_uuid, hint=prob.hint)
+        )
+    else:
+        bot.send_message(chat_id=chat_id, text=reply_msg('finish'))
+        bot.send_message(
+            chat_id=chat_id,
+            text="""You have completed all the questions!！\n
+                 If you want to continue practicing, you can enter /start to continue answering (no points will be counted)
+                 If you want to know your score type /status"""
+        )
+
+
+def company_name_handler(update, _):
     #update.message.reply_text(update.message.text)
     #message_text = update.message.text
+
     chat_id = update.message.chat_id
     user_id = update.message.chat.id
     uid = str(user_id)
-
     nickname = update.message.from_user.username
 
     user = User(nickname, uid)
 
-    reg = backend.search(user.userid)
-    if reg:
-        send_new_problem(user_id, chat_id)
-        return
+
+#    reg = backend.search(user.userid)
+ #   if reg:
+  #      user.uuid = res['player_uuid']
+   #     ENTITY[uid] = user
+    #    send_new_problem(user_id, chat_id)
+     #   return
+
 
     if not user.register(bot, chat_id, update):
         reply = 'Unable to create an account！'
@@ -65,7 +95,7 @@ def company(update, _):
     logger.info(f'User {nickname}({uid}) registered')
     ENTITY[uid] = user
     bot.send_message(chat_id=chat_id, text=reply_msg('welcome'))
-    send_new_problem(user_id, chat_id)
+    send_new_doggo(user_id, chat_id)
 
 
 def start_handler(update, _):
@@ -86,21 +116,23 @@ def start_handler(update, _):
 
 def callback_handler(update, _):
     global ENTITY
+
     ans, quiz_uuid = update.callback_query.data.split(' ')
     msg = update.callback_query.message
     user_id = update.callback_query.message.chat.id
-    print(update)
-    uid = str(user_id)
 
+
+    uid = str(user_id)
+    print(ENTITY)
     if uid not in ENTITY:
         return
 
     user = ENTITY[uid]
 
     # ignore any intend to answer old problems
-    if quiz_uuid != user.prob.quiz_uuid:
-        update.callback_query.answer()
-        return
+    #if quiz_uuid != user.prob.quiz_uuid:
+    #    update.callback_query.answer()
+    #     return
 
     if ans == '__HINT__':
         bot.edit_message_reply_markup(
@@ -111,13 +143,20 @@ def callback_handler(update, _):
         reply = f'Hint: {ENTITY[uid].prob.hint}'
         bot.send_message(chat_id=msg.chat_id, text=reply)
     else:
+        # bot.edit_message_reply_markup(
+        #     chat_id=msg.chat_id,
+        #     message_id=msg.message_id
+        # )
+        # result = user.check_answer(ans)
+        # bot.send_message(chat_id=msg.chat_id, text=judge_msg(result))
+        # send_new_problem(user_id, msg.chat_id)
         bot.edit_message_reply_markup(
-            chat_id=msg.chat_id,
-            message_id=msg.message_id
+        chat_id=msg.chat_id,
+        message_id=msg.message_id
         )
-        result = user.check_answer(ans)
-        bot.send_message(chat_id=msg.chat_id, text=judge_msg(result))
-        send_new_problem(user_id, msg.chat_id)
+        #result = user.check_answer(ans)
+        bot.send_message(chat_id=msg.chat_id, text="nice")
+        send_new_doggo(user_id, msg.chat_id)
 
 def status_handler(update, _):
     global ENTITY
@@ -161,7 +200,7 @@ def main():
 
     dispatcher.add_handler(CallbackQueryHandler(callback_handler, run_async=True))
     dispatcher.add_handler(CommandHandler('start', start_handler, run_async=True))
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, company ))
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, company_name_handler))
     dispatcher.add_handler(CommandHandler('status', status_handler, run_async=True))
     dispatcher.add_handler(CommandHandler('feedback', feedback_handler, run_async=True))
     dispatcher.add_error_handler(error_handler)
