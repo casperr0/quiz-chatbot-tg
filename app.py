@@ -20,7 +20,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 ENTITY: Dict[str, User] = {}
-dogs_photos = ["doggo1.jpg", "doggo2.jpg", "doggo3.jpg", "doggo4.jpg", "doggo5.jpg"]
+dogs_photos = ["doggo1.jpg", "doggo3.jpg"]
 
 def send_new_problem(user_id,chat_id):
     global ENTITY
@@ -47,15 +47,18 @@ def send_new_doggo(user_id,chat_id):
     uid = str(user_id)
     prob = ENTITY[uid].get_problem()
     if prob:
-
+        bot.send_message(
+            chat_id=chat_id,
+            parse_mode='HTML',
+            text=prob.text(),
+        )
         doggo_photo=dogs_photos[randrange(len(dogs_photos))]
         with open(doggo_photo, 'rb') as f:
             bot.send_photo(
                 chat_id=chat_id,
-
                 parse_mode='HTML',
                 photo=f,
-                reply_markup=prob_markup_doggo(prob.quiz_uuid, hint=prob.hint)
+                reply_markup=prob_markup(prob.quiz_uuid, hint=prob.hint)
         )
     else:
         bot.send_message(chat_id=chat_id, text=reply_msg('finish'))
@@ -130,9 +133,9 @@ def callback_handler(update, _):
     user = ENTITY[uid]
 
     # ignore any intend to answer old problems
-    #if quiz_uuid != user.prob.quiz_uuid:
-    #    update.callback_query.answer()
-    #     return
+    if quiz_uuid != user.prob.quiz_uuid:
+        update.callback_query.answer()
+        return
 
     if ans == '__HINT__':
         bot.edit_message_reply_markup(
@@ -143,19 +146,13 @@ def callback_handler(update, _):
         reply = f'Hint: {ENTITY[uid].prob.hint}'
         bot.send_message(chat_id=msg.chat_id, text=reply)
     else:
-        # bot.edit_message_reply_markup(
-        #     chat_id=msg.chat_id,
-        #     message_id=msg.message_id
-        # )
-        # result = user.check_answer(ans)
-        # bot.send_message(chat_id=msg.chat_id, text=judge_msg(result))
-        # send_new_problem(user_id, msg.chat_id)
         bot.edit_message_reply_markup(
-        chat_id=msg.chat_id,
-        message_id=msg.message_id
+            chat_id=msg.chat_id,
+            message_id=msg.message_id
         )
-        #result = user.check_answer(ans)
-        bot.send_message(chat_id=msg.chat_id, text="nice")
+        result = user.check_answer(ans)
+        bot.send_message(chat_id=msg.chat_id, text=judge_msg(result))
+
         send_new_doggo(user_id, msg.chat_id)
 
 def status_handler(update, _):
