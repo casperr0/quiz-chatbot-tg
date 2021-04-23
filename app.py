@@ -73,6 +73,7 @@ def send_new_doggo(user_id,chat_id):
 def company_name_handler(update, _):
     #update.message.reply_text(update.message.text)
     #message_text = update.message.text
+    global ENTITY
 
     chat_id = update.message.chat_id
     user_id = update.message.chat.id
