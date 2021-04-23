@@ -20,7 +20,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 ENTITY: Dict[str, User] = {}
-dogs_photos = ["doggo1.jpg", "doggo3.jpg"]
+dogs_photos = ["doggo1.jpg", "doggo2.jpg", "doggo3.jpg", "doggo4.jpg"]
 
 def send_new_problem(user_id,chat_id):
     global ENTITY
@@ -112,6 +112,11 @@ def start_handler(update, _):
         send_new_problem(user_id, chat_id)
         return
 
+    reg = backend.search(user_id)
+    if reg:
+        send_new_doggo(user_id, chat_id)
+        return
+
     bot.send_message(
         chat_id=chat_id,
         text="""Please enter your company name """
@@ -126,7 +131,6 @@ def callback_handler(update, _):
 
 
     uid = str(user_id)
-    print(ENTITY)
     if uid not in ENTITY:
         return
 

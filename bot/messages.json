@@ -5,7 +5,8 @@
 	],
 	"finish": [
 		"🚩This is not the end, but a new beginning",
-		"🚩You've passed all questions!"
+		"🚩You've passed all questions!",
+		"🚩Well done! All questions are passed!"
 	],
 	"allpass": [
 		"😎cool(?",
@@ -14,7 +15,7 @@
 	"allwrong": [
 		"👽You answer every question wrong, and you are not easy...",
 		"👽You definitely did it on purpose, right? Right?",
-		"👽這It’s only the secret between us！"
+		"👽It’s only the secret between us！"
 	],
 	"correct": [],
 	"incorrect": [] 
