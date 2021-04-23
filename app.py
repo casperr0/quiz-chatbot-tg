@@ -82,6 +82,7 @@ def company_name_handler(update, _):
     user = User(nickname, uid)
 
     if user.is_registered():
+        ENTITY[uid] = user
         send_new_doggo(user_id, chat_id)
         return
 
@@ -109,7 +110,6 @@ def start_handler(update, _):
 
     reg = backend.search(user_id)
     if reg:
-        send_new_doggo(user_id, chat_id)
         return
 
     bot.send_message(
