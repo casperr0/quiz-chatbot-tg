@@ -20,7 +20,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 ENTITY: Dict[str, User] = {}
-dogs_photos = ["doggo1.jpg", "doggo2.jpg", "doggo3.jpg", "doggo4.jpg"]
+photos = ["doggo1.jpg", "doggo2.jpg", "doggo3.jpg", "doggo4.jpg"]
 
 def send_new_problem(user_id,chat_id):
     global ENTITY
@@ -52,8 +52,8 @@ def send_new_doggo(user_id,chat_id):
             parse_mode='HTML',
             text=prob.text(),
         )
-        doggo_photo=dogs_photos[randrange(len(dogs_photos))]
-        with open(doggo_photo, 'rb') as f:
+        photo = photos[randrange(len(photos))]
+        with open(photo, 'rb') as f:
             bot.send_photo(
                 chat_id=chat_id,
                 parse_mode='HTML',
@@ -81,14 +81,9 @@ def company_name_handler(update, _):
 
     user = User(nickname, uid)
 
-
-#    reg = backend.search(user.userid)
- #   if reg:
-  #      user.uuid = res['player_uuid']
-   #     ENTITY[uid] = user
-    #    send_new_problem(user_id, chat_id)
-     #   return
-
+    if user.is_registered():
+        send_new_doggo(user_id, chat_id)
+        return
 
     if not user.register(bot, chat_id, update):
         reply = 'Unable to create an account！'
@@ -109,7 +104,7 @@ def start_handler(update, _):
     #nickname = update.message.from_user.username
 
     if uid in ENTITY:
-        send_new_problem(user_id, chat_id)
+        send_new_doggo(user_id, chat_id)
         return
 
     reg = backend.search(user_id)

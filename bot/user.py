@@ -70,12 +70,14 @@ class User:
     def get_status(self):
         return backend.get_status(self.uuid)
 
-    def register(self, bot, chat_id, update) -> bool:
-
+    def is_registered(self) -> bool:
         res = backend.search(self.userid)
         if res:
             self.uuid = res['player_uuid']
             return True
+        return False
+
+    def register(self, bot, chat_id, update) -> bool:
         self.get_company(update, bot, chat_id=chat_id)
 
         payload: RegisterReq = {
