@@ -11,6 +11,7 @@ class Problem:
     category: str
     question: str
     options: List[str]
+    photo_name: str
     hint: Union[str, None] = None
 
     def text(self):
@@ -53,6 +54,7 @@ class User:
             feed['domain'],
             feed['description'],
             feed['options'],
+            feed['photo_name'],
             None
         )
         return self.prob

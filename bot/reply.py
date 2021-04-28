@@ -31,10 +31,3 @@ def prob_markup(quiz_uuid, hint=False):
             InlineKeyboardButton('Hint', callback_data=f'__HINT__ {quiz_uuid}')])
 
     return InlineKeyboardMarkup(keyboard)
-
-def prob_markup_doggo(quiz_uuid, hint=False):
-    keyboard = [[InlineKeyboardButton('Yes', callback_data=f'Nice doggo'),
-                 InlineKeyboardButton('No', callback_data=f'Nice doggo')
-                ]]
-
-    return InlineKeyboardMarkup(keyboard)

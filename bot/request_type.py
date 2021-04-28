@@ -20,6 +20,7 @@ class UserFeed(TypedDict):
     level: str
     score: int
     options: list[str]
+    photo_name: str
 
 class UserStatus(TypedDict):
     player_uuid: str
