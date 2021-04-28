@@ -5,7 +5,7 @@ from typing import Dict
 import telegram
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler,Filters, MessageHandler
 from telegram.ext.dispatcher import run_async
-from bot.reply import reply_msg, judge_msg, prob_markup, prob_markup_doggo
+from bot.reply import reply_msg, judge_msg, prob_markup
 from bot.user import User
 from bot.config import TOKEN
 from bot import backend
@@ -20,7 +20,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 ENTITY: Dict[str, User] = {}
-photos = ["doggo1.jpg", "doggo2.jpg", "doggo3.jpg", "doggo4.jpg"]
 
 def send_new_problem(user_id,chat_id):
     global ENTITY
@@ -42,18 +41,19 @@ def send_new_problem(user_id,chat_id):
                  If you want to know your score type /status"""
         )
 
-def send_new_doggo(user_id,chat_id):
+def send_new_problem_with_photo(user_id, chat_id):
     global ENTITY
     uid = str(user_id)
     prob = ENTITY[uid].get_problem()
+    print(prob)
     if prob:
         bot.send_message(
             chat_id=chat_id,
             parse_mode='HTML',
             text=prob.text(),
         )
-        photo = photos[randrange(len(photos))]
-        with open(photo, 'rb') as f:
+        #photo = photos[randrange(len(photos))]
+        with open(prob.photo_name, 'rb') as f:
             bot.send_photo(
                 chat_id=chat_id,
                 parse_mode='HTML',
@@ -84,7 +84,7 @@ def company_name_handler(update, _):
 
     if user.is_registered():
         ENTITY[uid] = user
-        send_new_doggo(user_id, chat_id)
+        send_new_problem_with_photo(user_id, chat_id)
         return
 
     if not user.register(bot, chat_id, update):
@@ -95,7 +95,7 @@ def company_name_handler(update, _):
     logger.info(f'User {nickname}({uid}) registered')
     ENTITY[uid] = user
     bot.send_message(chat_id=chat_id, text=reply_msg('welcome'))
-    send_new_doggo(user_id, chat_id)
+    send_new_problem_with_photo(user_id, chat_id)
 
 
 def start_handler(update, _):
@@ -106,7 +106,7 @@ def start_handler(update, _):
     #nickname = update.message.from_user.username
 
     if uid in ENTITY:
-        send_new_doggo(user_id, chat_id)
+        send_new_problem_with_photo(user_id, chat_id)
         return
 
     reg = backend.search(user_id)
@@ -153,7 +153,7 @@ def callback_handler(update, _):
         result = user.check_answer(ans)
         bot.send_message(chat_id=msg.chat_id, text=judge_msg(result))
 
-        send_new_doggo(user_id, msg.chat_id)
+        send_new_problem_with_photo(user_id, msg.chat_id)
 
 def status_handler(update, _):
     global ENTITY
