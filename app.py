@@ -25,42 +25,23 @@ def send_new_problem(user_id, chat_id):
     global ENTITY
     uid = str(user_id)
     prob = ENTITY[uid].get_problem()
-    if prob:
-        bot.send_message(
-            chat_id=chat_id,
-            text=prob.text(),
-            parse_mode='HTML',
-            reply_markup=prob_markup(prob.quiz_uuid, hint=prob.hint)
-        )
-    else:
-        bot.send_message(chat_id=chat_id, text=reply_msg('finish'))
-        bot.send_message(
-            chat_id=chat_id,
-            text="""You have completed all the questions!！\n
-                 If you want to continue practicing, you can enter /start to continue answering (no points will be counted)
-                 If you want to know your score type /status"""
-        )
-
-
-def send_new_problem_with_photo(user_id, chat_id):
-    global ENTITY
-    uid = str(user_id)
-    prob = ENTITY[uid].get_problem()
     print(prob)
     if prob:
-        bot.send_message(
-            chat_id=chat_id,
-            parse_mode='HTML',
-            text=prob.text(),
-        )
-        # photo = photos[randrange(len(photos))]
-        with open(prob.photo_name, 'rb') as f:
-            bot.send_photo(
+        if prob.photo_name == '':
+            bot.send_message(
                 chat_id=chat_id,
+                text=prob.text(),
                 parse_mode='HTML',
-                photo=f,
                 reply_markup=prob_markup(prob.quiz_uuid, hint=prob.hint)
             )
+        else:
+            with open(prob.photo_name, 'rb') as f:
+                bot.send_photo(
+                    chat_id=chat_id,
+                    parse_mode='HTML',
+                    photo=f,
+                    reply_markup=prob_markup(prob.quiz_uuid, hint=prob.hint)
+                )
     else:
         bot.send_message(chat_id=chat_id, text=reply_msg('finish'))
         bot.send_message(
@@ -91,7 +72,7 @@ def company_name_handler(update, _):
 
     if user.is_registered():
         ENTITY[uid] = user
-        send_new_problem_with_photo(user_id, chat_id)
+        send_new_problem(user_id, chat_id)
         return
 
     if not user.register(bot, chat_id, update):
@@ -102,7 +83,7 @@ def company_name_handler(update, _):
     logger.info(f'User {nickname}({uid}) registered')
     ENTITY[uid] = user
     bot.send_message(chat_id=chat_id, text=reply_msg('welcome'))
-    send_new_problem_with_photo(user_id, chat_id)
+    send_new_problem(user_id, chat_id)
 
 
 def start_handler(update, _):
@@ -113,7 +94,7 @@ def start_handler(update, _):
     # nickname = update.message.from_user.username
 
     if uid in ENTITY:
-        send_new_problem_with_photo(user_id, chat_id)
+        send_new_problem(user_id, chat_id)
         return
 
     reg = backend.search(user_id)
@@ -160,7 +141,7 @@ def callback_handler(update, _):
         result = user.check_answer(ans)
         bot.send_message(chat_id=msg.chat_id, text=judge_msg(result))
 
-        send_new_problem_with_photo(user_id, msg.chat_id)
+        send_new_problem(user_id, msg.chat_id)
 
 
 def status_handler(update, _):
