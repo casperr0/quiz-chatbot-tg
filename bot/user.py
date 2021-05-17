@@ -8,13 +8,14 @@ from . import backend
 @dataclass
 class Problem:
     quiz_uuid: str
+    category: str
     question: str
     options: List[str]
     photo_name: str
     hint: Union[str, None] = None
 
     def text(self):
-        quest = f'<b>[{self.category}]</b>\n{self.question.ljust(25, " ")}\n'
+        quest = f'{self.question.ljust(25, " ")}\n'
 
         for i in range(len(self.options)):
             opchar = chr(ord('A') + i)
@@ -50,6 +51,7 @@ class User:
 
         self.prob = Problem(
             feed['quiz_uuid'],
+            feed['domain'],
             feed['description'],
             feed['options'],
             feed['photo_name'],
