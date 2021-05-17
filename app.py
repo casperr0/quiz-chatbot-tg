@@ -27,11 +27,15 @@ def send_new_problem(user_id, chat_id):
     prob = ENTITY[uid].get_problem()
     print(prob)
     if prob:
+        if prob.photo_name == '':
+            reply_markup = prob_markup(prob.quiz_uuid, hint=prob.hint)
+        else:
+            reply_markup = None
         bot.send_message(
             chat_id=chat_id,
             text=prob.text(),
             parse_mode='HTML',
-            reply_markup=prob_markup(prob.quiz_uuid, hint=prob.hint)
+            reply_markup=reply_markup
         )
         if prob.photo_name != '':
             with open(prob.photo_name, 'rb') as f:
