@@ -8,7 +8,6 @@ from . import backend
 @dataclass
 class Problem:
     quiz_uuid: str
-    category: str
     question: str
     options: List[str]
     photo_name: str
@@ -51,7 +50,6 @@ class User:
 
         self.prob = Problem(
             feed['quiz_uuid'],
-            feed['domain'],
             feed['description'],
             feed['options'],
             feed['photo_name'],
