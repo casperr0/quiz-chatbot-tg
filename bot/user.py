@@ -16,10 +16,14 @@ class Problem:
 
     def text(self):
         quest = f'{self.question.ljust(25, " ")}\n'
-
+        print(self.options)
+        #self.options=[i for i in self.options if i!='']
+        #print(self.options)
         for i in range(len(self.options)):
-            opchar = chr(ord('A') + i)
-            quest += f'({opchar}) {self.options[i]}\n'
+
+            if self.options[i]!='':
+                opchar = chr(ord('A') + i)
+                quest += f'({opchar}) {self.options[i]}\n'
 
         return quest
 

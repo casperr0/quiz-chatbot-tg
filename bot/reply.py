@@ -24,8 +24,7 @@ def judge_msg(correct):
 def prob_markup(quiz_uuid, hint=False):
     keyboard = [[InlineKeyboardButton('A', callback_data=f'0 {quiz_uuid}'),
                  InlineKeyboardButton('B', callback_data=f'1 {quiz_uuid}'),
-                 InlineKeyboardButton('C', callback_data=f'2 {quiz_uuid}'),
-                 InlineKeyboardButton('D', callback_data=f'3 {quiz_uuid}')]]
+                 InlineKeyboardButton('C', callback_data=f'2 {quiz_uuid}')]]
     if hint:
         keyboard.append([
             InlineKeyboardButton('Hint', callback_data=f'__HINT__ {quiz_uuid}')])

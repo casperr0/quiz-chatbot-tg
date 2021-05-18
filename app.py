@@ -49,9 +49,8 @@ def send_new_problem(user_id, chat_id):
         bot.send_message(chat_id=chat_id, text=reply_msg('finish'))
         bot.send_message(
             chat_id=chat_id,
-            text="""You have completed all the questions!！\n
-                 If you want to continue practicing, you can enter /start to continue answering (no points will be counted)
-                 If you want to know your score type /status"""
+            text="""Вы ответили на все вопросы!！\n
+                 Если хотите узнать свой былл введите /status"""
         )
 
 
@@ -106,7 +105,7 @@ def start_handler(update, _):
 
     bot.send_message(
         chat_id=chat_id,
-        text="""Please enter your company name """
+        text="""Пожалуйста, введите имя компании, в которой работаете"""
     )
 
 
