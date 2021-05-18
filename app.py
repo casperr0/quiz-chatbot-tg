@@ -164,9 +164,9 @@ def status_handler(update, _):
     reply = f"score: {score} \n"
 
     if remain > 0:
-        reply += f'Remaining questions: {remain} '
+        reply += f'Оставшиеся вопросы: {remain} '
     else:
-        reply += 'Game Completed!'
+        reply += 'Квиз завершен! Заберите свою награду, если набрали 4 балла и больше!'
 
     bot.send_message(chat_id=chat_id, text=reply)
 
