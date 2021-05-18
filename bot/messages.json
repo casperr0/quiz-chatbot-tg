@@ -1,21 +1,16 @@
 {
 	"welcome": [
-		"▶Hello, world! This test has 5 questions. Try to answer all of them! ",
-		"▶Welcome! This test has 5 questions. Try to answer all of them!"
+		"▶Приветствую! в этом тесте 5 вопросов. попробуйте ответить на все! "
 	],
 	"finish": [
-		"🚩This is not the end, but a new beginning",
-		"🚩You've passed all questions!",
-		"🚩Well done! All questions are passed!"
+		"🚩Поздравляю! вы прошли все вопросы!",
+		"🚩Отлично! все вопросы пройдены"
 	],
 	"allpass": [
-		"😎cool(?",
-		"😎Wonderful Day"
+		"😎круто?"
 	],
 	"allwrong": [
-		"👽You answer every question wrong, and you are not easy...",
-		"👽You definitely did it on purpose, right? Right?",
-		"👽It’s only the secret between us！"
+		"👽Вы ответили на все ответы неверно"
 	],
 	"correct": [],
 	"incorrect": [] 
